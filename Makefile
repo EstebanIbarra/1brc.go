@@ -3,6 +3,9 @@ app_version=0.1.0
 
 bin_path=bin
 src_path=src
+gen_path=gen
+data_path=$(gen_path)/data
+measurements_file=measurements.txt
 
 green=\033[0;32m
 yellow=\033[0;33m
@@ -22,7 +25,7 @@ build: clean
 	@go build -o $(bin_path)/$(app_name) ./$(src_path)
 	@echo "$(green)Build complete!$(nc)"
 
-run: build
+run: setup build
 	@echo "$(green)Running...$(nc)"
 	@./$(bin_path)/$(app_name)
 
@@ -34,3 +37,13 @@ format:
 	@echo "$(green)Running formatter...$(nc)"
 	@go fmt ./...
 	@goimports -w .
+
+setup:
+	@echo "$(green)Checking for $(yellow)$(measurements_file)$(green)...$(nc)"
+	@if [ ! -f ./$(data_path)/$(measurements_file) ]; then \
+		echo "$(red)Error: $(yellow)$(measurements_file)$(nc) not found."; \
+		echo "$(green)Generating $(yellow)$(measurements_file)$(nc)...$(nc)"; \
+		cd $(gen_path); \
+		python3 create_measurements.py 1_000_000_000; \
+		cd ..; \
+	fi

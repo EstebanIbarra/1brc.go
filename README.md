@@ -8,14 +8,6 @@ The objective of this repo is to solve the [1 Billion Row Challenge](https://git
 2. [Make](https://www.gnu.org/software/make)
 3. [Python 3](https://www.python.org) [^1]
 
-## Development setup
-
-A [bash script](setup.sh) is provided, so all you need to do is run the script.
-
-```bash
-./setup.sh
-```
-
 ## Build, Test and Run
 
 All possible targets are defined in the [Makefile](Makefile) provided in the repo.
@@ -24,6 +16,11 @@ All possible targets are defined in the [Makefile](Makefile) provided in the rep
 
 ```bash
 make
+```
+
+### Setup
+```bash
+make setup
 ```
 
 ### Test
@@ -36,6 +33,14 @@ make test
 
 ```bash
 make run
+```
+
+## Development setup
+
+A [bash script](setup.sh) is provided, so all you need to do is run the script.
+
+```bash
+./setup.sh
 ```
 
 [^1]: Needed to generate the `measurements.txt` file used by the application. This file is not provided because it weights aprox 16G.
