@@ -7,22 +7,36 @@ nc="\033[0m"
 
 # Check code formatting
 echo -e "${green}Checking code formatting...${nc}"
-gofmt -l . | read || (echo -e "${red}Code formatting issues found. Please run ${yellow}go fmt${red} and commit the changes.${nc}" && exit 1)
+fmtout=$(gofmt -d .)
+if [ -n "$fmtout" ]; then
+  echo -e "${red}Code formatting issues found. Please run ${yellow}go fmt ./...${red} and commit the changes.${nc}"
+  exit 1
+fi
 echo -e "${green}Code formatting check passed.${nc}"
 
 # Check for any go vet issues
-echo -e "${green}Checking for go vet issues...${nc}"
-go vet ./...
+echo -e "${green}Checking for go vet issues...${yellow}"
+if ! go vet ./... ; then
+  echo -e "${red}go vet issues found. Please fix the issues and commit the changes.${nc}"
+  exit 1
+fi
 echo -e "${green}go vet check passed.${nc}"
 
 # Check for any go lint issues
 echo -e "${green}Checking for go lint issues...${nc}"
-golangci-lint run ./...
+if ! golangci-lint run ./... ; then
+  echo -e "${red}go lint issues found. Please fix the issues and commit the changes.${nc}"
+  exit 1
+fi
 echo -e "${green}go lint check passed.${nc}"
 
 # Check for any go imports issues
 echo -e "${green}Checking for go imports issues...${nc}"
-goimports -l . | read || (echo -e "${red}go imports issues found. Please run ${yellow}goimports -w .${red} and commit the changes.${nc}" && exit 1)
+goimportsout=$(goimports -d .)
+if [ -n "$goimportsout" ]; then
+  echo -e "${red}go imports issues found. Please run ${yellow}goimports -w .${red} and commit the changes.${nc}"
+  exit 1
+fi
 echo -e "${green}go imports check passed.${nc}"
 
 exit 0
