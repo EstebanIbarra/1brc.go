@@ -6,7 +6,7 @@ The objective of this repo is to solve the [1 Billion Row Challenge](https://git
 
 1. [Go](https://go.dev/learn)
 2. [Make](https://www.gnu.org/software/make)
-3. [Python 3](https://www.python.org)[^1]
+3. [Python 3](https://www.python.org) [^1]
 
 ## Development setup
 
