@@ -1,0 +1,33 @@
+#!/bin/bash
+
+green="\033[0;32m"
+yellow="\033[0;33m"
+red="\033[0;31m"
+nc="\033[0m"
+
+# Check code formatting
+echo -e "${green}Checking code formatting...${nc}"
+gofmt -l . | read || (echo -e "${red}Code formatting issues found. Please run ${yellow}go fmt${red} and commit the changes.${nc}" && exit 1)
+echo -e "${green}Code formatting check passed.${nc}"
+
+# Check for any go vet issues
+echo -e "${green}Checking for go vet issues...${nc}"
+go vet ./...
+echo -e "${green}go vet check passed.${nc}"
+
+# Check for any go lint issues
+echo -e "${green}Checking for go lint issues...${nc}"
+golint ./...
+echo -e "${green}go lint check passed.${nc}"
+
+# Check for any go imports issues
+echo -e "${green}Checking for go imports issues...${nc}"
+goimports -l . | read || (echo -e "${red}go imports issues found. Please run ${yellow}goimports -w .${red} and commit the changes.${nc}" && exit 1)
+echo -e "${green}go imports check passed.${nc}"
+
+# Run tests
+echo -e "${green}Running tests...${nc}"
+go test -v ./...
+echo -e "${green}Tests passed.${nc}"
+
+exit 0
