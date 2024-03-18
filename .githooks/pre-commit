@@ -17,7 +17,7 @@ echo -e "${green}go vet check passed.${nc}"
 
 # Check for any go lint issues
 echo -e "${green}Checking for go lint issues...${nc}"
-golint ./...
+golangci-lint run ./...
 echo -e "${green}go lint check passed.${nc}"
 
 # Check for any go imports issues
